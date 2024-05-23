@@ -41,7 +41,7 @@ This Sudoku Puzzle Generator provides functionalities to create Sudoku puzzles w
 
 ### Generating a Sudoku Puzzle
 
-To generate a Sudoku puzzle, build from ContentView
+To generate a Sudoku puzzle, run build from ContentView
 
 The difficulty level of the generated puzzle will be random, ranging from easy, medium, to hard.
 
