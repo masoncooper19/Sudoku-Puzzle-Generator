@@ -27,39 +27,24 @@ struct PuzzleView: View {
     var body: some View {
         NavigationView {
             VStack {
-                /*
-                Picker("Select Puzzle Type", selection: $puzzleTypeIndex) {
-                    ForEach(0..<PuzzleType.allCases.count) { index in
-                        Text(PuzzleType.allCases[index].rawValue)
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding()
-                 */
                 Button("Generate Puzzle") {
                     generatePuzzle()
                 }
                 .padding()
                 Divider()
-                /*
-                Picker("Select Difficulty", selection: $difficulty) {
-                    ForEach(SudokuDifficulty.allCases, id: \.self) { level in
-                        Text(level.rawValue)
-                    }
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .onChange(of: difficulty) { _ in
-                    currentSudokuPuzzle = nil
-                }
-                .padding()
-                 */
                 if let puzzle = currentSudokuPuzzle {
                     if current_difficulty == 20 {
-                        Text("Medium")
+                        Text("Medium Difficulty")
+                            .foregroundStyle(.yellow)
+                            .padding()
                     } else if current_difficulty == 30 {
-                        Text("Hard")
+                        Text("Hard Difficulty")
+                            .foregroundStyle(.red)
+                            .padding()
                     } else {
-                        Text("Easy")
+                        Text("Easy Difficulty")
+                            .foregroundStyle(.green)
+                            .padding()
                     }
                     SudokuPuzzleView(userGrid: $userGrid, puzzle: puzzle)
                         .padding()

@@ -5,7 +5,7 @@ public var current_difficulty = 0
 struct SudokuPuzzle {
     let puzzleGrid: [[Int?]]
     let solutionGrid: [[Int]]
-
+    
     // Initialize SudokuPuzzle with puzzleGrid and solutionGrid
     init(puzzleGrid: [[Int?]], solutionGrid: [[Int]]) {
         self.puzzleGrid = puzzleGrid
@@ -15,20 +15,7 @@ struct SudokuPuzzle {
     // Function to generate a daily Sudoku puzzle with the specified difficulty
     static func generateDaily(difficulty: SudokuDifficulty) -> SudokuPuzzle {
         var puzzleGrid: [[Int?]] = Array(repeating: Array(repeating: nil, count: 9), count: 9)
-        
-        //difficulty switching currently does not work
         generateRandomPuzzle(&puzzleGrid)
-        /*
-        switch difficulty {
-        case .easy:
-            generateEasyPuzzle(&puzzleGrid)
-        case .medium:
-            generateMediumPuzzle(&puzzleGrid)
-        case .hard:
-            generateHardPuzzle(&puzzleGrid)
-        }
-         */
-        
         let solutionGrid: [[Int]] = puzzleGrid.map { $0.compactMap { $0 } }
         
         // Hide some cells to create the puzzle
@@ -61,20 +48,6 @@ struct SudokuPuzzle {
         current_difficulty = selected
         solveSudoku(&grid)
         removeRandomNumbers(&grid, count: selected)
-    }
-    
-    private static func generateEasyPuzzle(_ grid: inout [[Int?]]) {
-        solveSudoku(&grid)
-    }
-    
-    private static func generateMediumPuzzle(_ grid: inout [[Int?]]) {
-        solveSudoku(&grid)
-        removeRandomNumbers(&grid, count: 20) // Adjust count as needed
-    }
-    
-    private static func generateHardPuzzle(_ grid: inout [[Int?]]) {
-        solveSudoku(&grid)
-        removeRandomNumbers(&grid, count: 30) // Adjust count as needed
     }
     
     private static func removeRandomNumbers(_ grid: inout [[Int?]], count: Int) {
@@ -134,7 +107,4 @@ struct SudokuPuzzle {
 
 enum SudokuDifficulty: String, CaseIterable {
     case random = "Random"
-    //case easy = "Easy"
-    //case medium = "Medium"
-    //case hard = "Hard"
 }
