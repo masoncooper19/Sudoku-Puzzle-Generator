@@ -10,7 +10,6 @@ This Sudoku Puzzle Generator provides functionalities to create Sudoku puzzles w
 
 - **Sudoku Puzzle Generation**: Generates Sudoku puzzles with a unique solution.
 - **Random Difficulty**: Randomly generates puzzles with easy, medium, or hard difficulty levels.
-- **Customizable Grid Size**: Provides options to create puzzles of different grid sizes, such as 4x4, 6x6, or 9x9.
 - **Solution Verification**: Validates generated puzzles to ensure they have a unique solution.
 
 ## Getting Started
