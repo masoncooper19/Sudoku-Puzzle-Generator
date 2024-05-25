@@ -24,13 +24,13 @@ This Sudoku Puzzle Generator provides functionalities to create Sudoku puzzles w
 1. Clone the repository to your local machine:
 
     ```
-    git clone https://github.com/masoncooper19/puzzlegenerate.git
+    git clone https://github.com/masoncooper19/Sudoku-Puzzle-Generator.git
     ```
 
 2. Open the project in Xcode:
 
     ```
-    cd puzzlegenerate
+    cd Sudoku-Puzzle-Generator
     open puzzlegenerate.xcodeproj
     ```
 
