@@ -41,7 +41,7 @@ struct SudokuPuzzle {
     }
     
     private static func generateRandomPuzzle(_ grid: inout [[Int?]]) {
-        let options = [0, 20, 30]
+        let options = [0, 10, 20, 30]
         guard let selected = options.randomElement() else {
             fatalError("Failed to select a difficulty level")
         }

@@ -29,13 +29,18 @@ struct PuzzleView: View {
                 Divider()
                 if let puzzle = currentSudokuPuzzle {
                     HStack {
-                        if current_difficulty == 20 {
+                        if current_difficulty == 10 {
                             Text("Medium Difficulty")
                                 .foregroundStyle(.yellow)
                                 .padding()
-                        } else if current_difficulty == 30 {
+                        } else if current_difficulty == 20 {
                             Text("Hard Difficulty")
                                 .foregroundStyle(.red)
+                                .padding()
+                            
+                        } else if current_difficulty == 30 {
+                            Text("Expert Difficulty")
+                                .foregroundStyle(.purple)
                                 .padding()
                         } else {
                             Text("Easy Difficulty")
