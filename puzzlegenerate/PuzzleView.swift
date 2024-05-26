@@ -28,21 +28,27 @@ struct PuzzleView: View {
                 .padding()
                 Divider()
                 if let puzzle = currentSudokuPuzzle {
-                    if current_difficulty == 20 {
-                        Text("Medium Difficulty")
-                            .foregroundStyle(.yellow)
-                            .padding()
-                    } else if current_difficulty == 30 {
-                        Text("Hard Difficulty")
-                            .foregroundStyle(.red)
-                            .padding()
-                    } else {
-                        Text("Easy Difficulty")
-                            .foregroundStyle(.green)
-                            .padding()
-                    }
-                    Text("Elapsed Time: \(timeString(from: elapsedTime))")
+                    HStack {
+                        if current_difficulty == 20 {
+                            Text("Medium Difficulty")
+                                .foregroundStyle(.yellow)
+                                .padding()
+                        } else if current_difficulty == 30 {
+                            Text("Hard Difficulty")
+                                .foregroundStyle(.red)
+                                .padding()
+                        } else {
+                            Text("Easy Difficulty")
+                                .foregroundStyle(.green)
+                                .padding()
+                        }
+                        Spacer()
+                        HStack {
+                            Image(systemName: "timer")
+                            Text(timeString(from: elapsedTime))
+                        }
                         .padding()
+                    }
                     SudokuPuzzleView(userGrid: $userGrid, puzzle: puzzle, startTime: $startTime, elapsedTime: $elapsedTime)
                         .padding()
                 } else {
@@ -69,7 +75,9 @@ struct PuzzleView: View {
         DispatchQueue.global(qos: .userInitiated).async {
             let newPuzzle = SudokuPuzzle.generateDaily(difficulty: difficulty)
             DispatchQueue.main.async {
+                // print("Generated Puzzle Grid: \(newPuzzle.puzzleGrid)")
                 currentSudokuPuzzle = newPuzzle
+                userGrid = newPuzzle.puzzleGrid // Assign the puzzle grid to userGrid
             }
         }
     }
