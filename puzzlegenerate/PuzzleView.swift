@@ -54,6 +54,11 @@ struct PuzzleView: View {
             .navigationBarTitle("Sudoku Generator")
             .padding()
         }
+        .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
+            if let startTime = startTime {
+                elapsedTime = Date().timeIntervalSince(startTime)
+            }
+        }
     }
     
     func generatePuzzle() {
