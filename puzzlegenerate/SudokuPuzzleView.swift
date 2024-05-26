@@ -1,15 +1,10 @@
-//
-//  SudokuPuzzleView.swift
-//  puzzlegenerate
-//
-//  Created by Mason Cooper on 2/20/24.
-//
-
 import SwiftUI
 
 struct SudokuPuzzleView: View {
     @Binding var userGrid: [[Int?]]
     let puzzle: SudokuPuzzle
+    @Binding var startTime: Date?
+    @Binding var elapsedTime: TimeInterval
     @State private var isSolved = false
     @State private var isIncorrect = false
     
@@ -27,6 +22,9 @@ struct SudokuPuzzleView: View {
                 if isGridFilled() {
                     self.isSolved = self.puzzle.isSolved(userGrid: self.userGrid)
                     self.isIncorrect = !self.isSolved
+                    if self.isSolved {
+                        self.startTime = nil // Stop the timer when the puzzle is solved
+                    }
                 } else {
                     self.isSolved = false
                     self.isIncorrect = false
@@ -37,7 +35,7 @@ struct SudokuPuzzleView: View {
             .padding()
             
             if isSolved {
-                Text("Congratulations! Puzzle Solved!")
+                Text("Congratulations! Puzzle Solved in \(timeString(from: elapsedTime))")
                     .foregroundColor(.green)
                     .padding()
             } else if isIncorrect {
@@ -63,6 +61,12 @@ struct SudokuPuzzleView: View {
             }
         }
         return true
+    }
+    
+    private func timeString(from timeInterval: TimeInterval) -> String {
+        let minutes = Int(timeInterval) / 60
+        let seconds = Int(timeInterval) % 60
+        return String(format: "%02d:%02d", minutes, seconds)
     }
 }
 

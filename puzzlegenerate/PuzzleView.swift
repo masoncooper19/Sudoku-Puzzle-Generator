@@ -1,18 +1,13 @@
-//
-//  PuzzleView.swift
-//  puzzlegenerate
-//
-//  Created by Mason Cooper on 2/20/24.
-//
-
 import SwiftUI
 
 struct PuzzleView: View {
     @State private var userGrid: [[Int?]] = Array(repeating: Array(repeating: nil, count: 9), count: 9)
     @State private var difficulty: SudokuDifficulty = .random // Default difficulty
+    @State private var startTime: Date? = nil // Add start time
+    @State private var elapsedTime: TimeInterval = 0 // Add elapsed time
+    
     enum PuzzleType: String, CaseIterable, Identifiable {
         case sudoku = "Sudoku"
-        
         var id: String { self.rawValue }
     }
     
@@ -46,7 +41,9 @@ struct PuzzleView: View {
                             .foregroundStyle(.green)
                             .padding()
                     }
-                    SudokuPuzzleView(userGrid: $userGrid, puzzle: puzzle)
+                    Text("Elapsed Time: \(timeString(from: elapsedTime))")
+                        .padding()
+                    SudokuPuzzleView(userGrid: $userGrid, puzzle: puzzle, startTime: $startTime, elapsedTime: $elapsedTime)
                         .padding()
                 } else {
                     Text("No Sudoku puzzle generated")
@@ -60,10 +57,22 @@ struct PuzzleView: View {
     }
     
     func generatePuzzle() {
+        userGrid = Array(repeating: Array(repeating: nil, count: 9), count: 9) // Reset the user grid
         currentSudokuPuzzle = nil
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-            currentSudokuPuzzle = SudokuPuzzle.generateDaily(difficulty: $difficulty.wrappedValue)
+        startTime = Date() // Start the timer
+        elapsedTime = 0 // Reset elapsed time
+        DispatchQueue.global(qos: .userInitiated).async {
+            let newPuzzle = SudokuPuzzle.generateDaily(difficulty: difficulty)
+            DispatchQueue.main.async {
+                currentSudokuPuzzle = newPuzzle
+            }
         }
+    }
+    
+    func timeString(from timeInterval: TimeInterval) -> String {
+        let minutes = Int(timeInterval) / 60
+        let seconds = Int(timeInterval) % 60
+        return String(format: "%02d:%02d", minutes, seconds)
     }
 }
 
