@@ -31,16 +31,16 @@ struct SudokuPuzzleView: View {
                 }
             }
             .padding()
+            .background(Color.brown)
             .cornerRadius(10)
+            .foregroundColor(.white)
             .padding()
             
             if isSolved {
-                Text("Congratulations! Puzzle Solved in \(timeString(from: elapsedTime))")
-                    .foregroundColor(.green)
+                outlinedText("Congratulations! Puzzle Solved in \(timeString(from: elapsedTime))", color: .green)
                     .padding()
             } else if isIncorrect {
-                Text("Try again! Incorrect solution.")
-                    .foregroundColor(.red)
+                outlinedText("Try again! Incorrect solution.", color: .red)
                     .padding()
             }
         }
@@ -68,6 +68,30 @@ struct SudokuPuzzleView: View {
         let seconds = Int(timeInterval) % 60
         return String(format: "%02d:%02d", minutes, seconds)
     }
+    
+    @ViewBuilder
+    private func outlinedText(_ text: String, color: Color) -> some View {
+        ZStack {
+            Text(text)
+                .foregroundColor(color)
+                .shadow(color: .white, radius: 1, x: 0, y: 0)
+            Text(text)
+                .foregroundColor(color)
+                .overlay(
+                    Text(text)
+                        .foregroundColor(.clear)
+                        .overlay(
+                            LinearGradient(
+                                gradient: Gradient(colors: [.white, .white.opacity(0)]),
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                            .mask(Text(text).foregroundColor(.black))
+                        )
+                        .blur(radius: 0.5)
+                )
+        }
+    }
 }
 
 struct BoxView: View {
@@ -86,7 +110,9 @@ struct BoxView: View {
                 }
             }
         }
-        .border(Color.black)
+        .background(Color(UIColor.systemBackground))
+        .cornerRadius(5)
+        .border(Color.brown, width: 2)
     }
 }
 
@@ -118,11 +144,11 @@ struct CellView: View {
         .multilineTextAlignment(.center)
         .frame(width: 30, height: 30)
         .padding(2)
-        .background(Color.white)
+        .background(Color(UIColor.systemBackground))
         .cornerRadius(5)
         .overlay(
             RoundedRectangle(cornerRadius: 5)
-                .stroke(Color.black, lineWidth: 1)
+                .stroke(Color.brown, lineWidth: 2)
         )
         .keyboardType(.numberPad)
         .foregroundColor(isStartingCell ? Color.blue : Color.black) // Set text color based on isStartingCell

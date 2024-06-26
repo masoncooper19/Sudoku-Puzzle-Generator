@@ -26,31 +26,32 @@ struct PuzzleView: View {
                     generatePuzzle()
                 }
                 .padding()
+                .background(Color.brown)
+                .cornerRadius(10)
+                .foregroundColor(.white)
                 Divider()
                 if let puzzle = currentSudokuPuzzle {
                     HStack {
                         if current_difficulty == 10 {
-                            Text("Medium Difficulty")
-                                .foregroundStyle(.yellow)
+                            outlinedText("Medium Difficulty", color: .yellow)
                                 .padding()
                         } else if current_difficulty == 20 {
-                            Text("Hard Difficulty")
-                                .foregroundStyle(.red)
+                            outlinedText("Hard Difficulty", color: .red)
                                 .padding()
                             
                         } else if current_difficulty == 30 {
-                            Text("Expert Difficulty")
-                                .foregroundStyle(.purple)
+                            outlinedText("Expert Difficulty", color: .purple)
                                 .padding()
                         } else {
-                            Text("Easy Difficulty")
-                                .foregroundStyle(.green)
+                            outlinedText("Easy Difficulty", color: .green)
                                 .padding()
                         }
                         Spacer()
                         HStack {
                             Image(systemName: "timer")
+                                .foregroundColor(.white) // Change timer icon color to white
                             Text(timeString(from: elapsedTime))
+                                .foregroundColor(.white) // Change timer text color to white
                         }
                         .padding()
                     }
@@ -58,10 +59,15 @@ struct PuzzleView: View {
                         .padding()
                 } else {
                     Text("No Sudoku puzzle generated")
-                        .foregroundColor(.gray)
+                        .foregroundColor(.white)
                         .padding()
                 }
             }
+            .background(
+                Image("woodBackground")
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
+            )
             .navigationBarTitle("Sudoku Generator")
             .padding()
         }
@@ -91,6 +97,30 @@ struct PuzzleView: View {
         let minutes = Int(timeInterval) / 60
         let seconds = Int(timeInterval) % 60
         return String(format: "%02d:%02d", minutes, seconds)
+    }
+    
+    @ViewBuilder
+    private func outlinedText(_ text: String, color: Color) -> some View {
+        ZStack {
+            Text(text)
+                .foregroundColor(color)
+                .shadow(color: .white, radius: 1, x: 0, y: 0)
+            Text(text)
+                .foregroundColor(color)
+                .overlay(
+                    Text(text)
+                        .foregroundColor(.clear)
+                        .overlay(
+                            LinearGradient(
+                                gradient: Gradient(colors: [.white, .white.opacity(0)]),
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                            .mask(Text(text).foregroundColor(.black))
+                        )
+                        .blur(radius: 0.5)
+                )
+        }
     }
 }
 
